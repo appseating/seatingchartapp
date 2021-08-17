@@ -42,7 +42,7 @@ npm start
 ├── web-app/                    # web app code
 │   ├── public/
 │   │   ├── favicon.ico
-│   │   ├── index.html
+│   │   ├── index.html          # static webpage served
 │   │   ├── logo192.png
 │   │   ├── logo512.png
 │   │   ├── manifest.json
@@ -61,7 +61,7 @@ npm start
 │   ├── README.md
 │   ├── .env
 │   └── .gitignore
-├── Procfile
+├── Procfile                    # Heroku build file
 ├── tsconfig.json
 ├── package.json
 ├── package-lock.json
