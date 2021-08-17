@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {k_about_link} from "./CustomNavbar";
+import {k_about_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
 
 interface AboutProps {
