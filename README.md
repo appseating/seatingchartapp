@@ -4,27 +4,29 @@
 
 Service to allow teachers to create seating charts automatically
 
-## How to Build the Server and Web App
+## Get Started
+
+### How to Build the Server and Web App
 
 ```
 npm i
 npm run build
 ```
 
-## How to Run the Server and Web App
+### How to Run the Server and Web App
 
 ```
 npm run start-dev
 ```
 
-## How to Build the Web App Alone
+### How to Build the Web App Alone
 
 ```
 cd web-app
 npm i
 ```
 
-## How to Run the Web App Alone
+### How to Run the Web App Alone
 
 ```
 cd web-app
