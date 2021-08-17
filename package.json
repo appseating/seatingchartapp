@@ -8,7 +8,6 @@
     "build": "rimraf dist && tsc && npm i --prefix ./web-app && npm run --prefix ./web-app build",
     "preserve": "npm run build",
     "serve": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
-    "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "start-dev": "npm run build-only-server && cross-env NODE_ENV=production node dist/index.js & (npm run --prefix ./web-app start)",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -40,6 +39,7 @@
     "nodemon": "^2.0.7"
   },
   "engines": {
-    "node": "14.17.0"
+    "node": "14.17.0",
+    "npm": "6.14.13"
   }
 }
