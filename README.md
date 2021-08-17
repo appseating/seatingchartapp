@@ -46,7 +46,7 @@ npm start
 │   │   ├── manifest.json
 │   │   └── robots.txt
 │   ├── src/
-│   │   ├── index.tsx           # entry point
+│   │   ├── index.tsx           # web app entry point
 │   │   ├── App.tsx
 │   │   ├── index.scss
 │   │   ├── App.test.tsx
