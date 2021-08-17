@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build-only-server": "rimraf dist && tsc",
-    "build": "rimraf dist && tsc && (npm i --prefix ./web-app && npm run --prefix ./web-app build)",
+    "build": "rimraf dist && tsc && npm i --prefix ./web-app && npm run --prefix ./web-app build",
     "preserve": "npm run build",
     "serve": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
     "prestart": "npm run build",
