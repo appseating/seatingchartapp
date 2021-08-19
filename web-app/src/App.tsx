@@ -11,7 +11,7 @@ import About from "./components/About/About";
 import Contact from "./components/Contact";
 import CreateSeatingChart from "./components/CreateSeatingChart";
 
-const App = () => {
+const App: React.FC = () => {
     const [screen, setScreen] = useState<string>("App");
     const [user, setUser] = useState<any>(undefined);
 
