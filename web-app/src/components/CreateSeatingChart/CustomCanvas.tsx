@@ -14,15 +14,15 @@ const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => 
 
     const setup: any = (p5: p5Types, canvasParentRef: Element): void => {
         p5.createCanvas(500, 500).parent(canvasParentRef);
-    };
+    }
 
     const draw: any = (p5: p5Types): void => {
         p5.background(0);
         p5.ellipse(x, y, 70, 70);
         x++;
-    };
+    }
 
     return <Sketch setup={setup} draw={draw}/>;
-};
+}
 
 export default CustomCanvas;
