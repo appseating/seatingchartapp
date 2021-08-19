@@ -18,6 +18,10 @@ const CustomNavbar = (props: CustomNavbarProps) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
+                        <NavLink to={k_create_seating_chart_link} className="nav-link"
+                                 activeClassName="active">Create</NavLink>
+                    </Nav>
+                    <Nav className="mr-auto">
                         <NavLink to={k_about_link} className="nav-link" activeClassName="active">About</NavLink>
                     </Nav>
                     <Nav className="mr-auto">
@@ -30,6 +34,7 @@ const CustomNavbar = (props: CustomNavbarProps) => {
 }
 
 export const k_home_link = "/home";
+export const k_create_seating_chart_link = "/create_seating_chart";
 export const k_about_link = "/about";
 export const k_contact_link = "/contact";
 
