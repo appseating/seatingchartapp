@@ -1,3 +1,4 @@
+import React from "react";
 import {NavLink} from "react-router-dom";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import logo from "../../resources/logo.png";
@@ -8,7 +9,7 @@ interface CustomNavbarProps {
     user: any;
 }
 
-const CustomNavbar = (props: CustomNavbarProps) => {
+const CustomNavbar: React.FC<CustomNavbarProps> = (props: CustomNavbarProps) => {
     return (
         <Navbar fixed="top" bg="dark" variant="dark" expand="lg">
             <Container>

@@ -8,7 +8,7 @@ interface HomeProps {
     user: any;
 }
 
-const Home = (props: HomeProps) => {
+const Home: React.FC<HomeProps> = (props: HomeProps) => {
     useEffect(() => {
         props.setScreen(k_home_link);
     }, [props]);

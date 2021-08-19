@@ -8,7 +8,7 @@ interface CreateSeatingChartProps {
     user: any;
 }
 
-const CreateSeatingChart = (props: CreateSeatingChartProps) => {
+const CreateSeatingChart: React.FC<CreateSeatingChartProps> = (props: CreateSeatingChartProps) => {
     useEffect(() => {
         props.setScreen(k_create_seating_chart_link);
     }, [props]);

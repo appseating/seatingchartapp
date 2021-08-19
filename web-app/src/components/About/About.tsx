@@ -8,7 +8,7 @@ interface AboutProps {
     user: any;
 }
 
-const About = (props: AboutProps) => {
+const About: React.FC<AboutProps> = (props: AboutProps) => {
     useEffect(() => {
         props.setScreen(k_about_link);
     }, [props]);

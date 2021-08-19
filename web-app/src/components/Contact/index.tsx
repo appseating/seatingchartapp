@@ -2,13 +2,13 @@ import React, {useEffect} from 'react';
 import {k_contact_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
 
-interface HomeProps {
+interface ContactProps {
     screen: string;
     setScreen: Function;
     user: any;
 }
 
-const Contact = (props: HomeProps) => {
+const Contact: React.FC<ContactProps> = (props: ContactProps) => {
     useEffect(() => {
         props.setScreen(k_contact_link);
     }, [props]);
