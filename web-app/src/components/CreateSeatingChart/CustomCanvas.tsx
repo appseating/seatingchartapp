@@ -2,8 +2,6 @@ import React from "react";
 import p5Types from "p5";
 import Sketch from "react-p5";
 
-type P5 = import("p5");
-
 interface CustomCanvasProps {
 
 }
