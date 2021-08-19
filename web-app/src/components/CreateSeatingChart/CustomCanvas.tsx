@@ -1,14 +1,15 @@
 import React from "react";
 import p5Types from "p5";
 import Sketch from "react-p5";
-
-type P5 = import("p5");
+import ISeatingChart from "../Interfaces/ISeatingChart";
 
 interface CustomCanvasProps {
-
+    seatingChart?: ISeatingChart;
 }
 
 const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => {
+    const { seatingChart } = props;
+
     let x = 50;
     const y = 50;
 
@@ -17,9 +18,14 @@ const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => 
     }
 
     const draw: any = (p5: p5Types): void => {
+        // clear canvas
         p5.background(0);
-        p5.ellipse(x, y, 70, 70);
-        x++;
+
+        // draw seating chart if it was passed into props
+        if(seatingChart) {
+            p5.ellipse(x, y, 70, 70);
+            x++;
+        }
     }
 
     return <Sketch setup={setup} draw={draw}/>;
