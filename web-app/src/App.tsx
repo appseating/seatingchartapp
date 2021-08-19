@@ -6,10 +6,12 @@ import CustomNavbar, {
     k_create_seating_chart_link,
     k_home_link
 } from "./components/CustomNavbar";
+import {k_hub_link} from "./components/Home";
 import Home from "./components/Home";
 import About from "./components/About/About";
 import Contact from "./components/Contact";
 import CreateSeatingChart from "./components/CreateSeatingChart";
+import Hub from "./components/Hub";
 
 const App: React.FC = () => {
     const [screen, setScreen] = useState<string>("App");
@@ -31,6 +33,9 @@ const App: React.FC = () => {
                 </Route>
                 <Route path={k_contact_link}>
                     <Contact screen={screen} setScreen={setScreen} user={user}/>
+                </Route>
+				<Route path={k_hub_link}>
+                    <Hub screen={screen} setScreen={setScreen} user={user}/>
                 </Route>
                 <Redirect to={k_home_link}/>
             </Switch>
