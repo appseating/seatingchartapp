@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {k_create_seating_chart_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
+import CustomCanvas from "./CustomCanvas";
 
 interface CreateSeatingChartProps {
     screen: string;
@@ -17,6 +18,7 @@ const CreateSeatingChart: React.FC<CreateSeatingChartProps> = (props: CreateSeat
         <div className={"page-container"}>
             <Container>
                 <h1>Create Seating Chart</h1>
+                <CustomCanvas/>
             </Container>
         </div>
     );
