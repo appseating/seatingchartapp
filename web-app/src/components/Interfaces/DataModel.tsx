@@ -1,36 +1,41 @@
 
-class Student {
+export class Student {
     id: number | null = null
     name: string | null = null
     grade: number | null = null
     gender: number | null = null
-    prefNames: string[] = []
+    prefFriends: string[] = []
     groupPref: number[] = []
 }
 
-class Layout{
+export class Layout{
     id: number | null = null
     name: string | null = null
     // TODO: graphical representation
 }
 
 // note: does not contain students, but rather id references to students
-class Group {
+export class Group {
     name: string | null = null
     studentIDs: number[] = []
 }
 
 // note: does not contain layouts, but rather id references to layouts
-class Seating {
+export class Seating {
     name: string | null = null
     groups: Group[] = []
     layoutID: number | null = null
 }
 
-class Roster {
+export class Roster {
     students: Map<number, Student> = new Map()
     nextStudentID: number = 0
     seatings: Seating[] = []
+
+    addStudent(s:Student){
+        s.id  = this.nextStudentID
+        this.students.set(this.nextStudentID++, s)
+    }
 }
 
 export class ApplicationState {
