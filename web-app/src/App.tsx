@@ -22,6 +22,7 @@ const App: React.FC = () => {
     const [rosters, setRosters] = useState<Array<any>>([]);
 
     useEffect(() => {
+        // load in rosters from local storage when app starts
         let savedRosters = readFromStorage(k_rosters) || [];
 
         if(savedRosters instanceof Array) {
@@ -30,7 +31,8 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-       saveToStorage(k_rosters, rosters);
+        // save latest rosters changes to local storage
+        saveToStorage(k_rosters, rosters);
     }, [rosters]);
 
     return (
