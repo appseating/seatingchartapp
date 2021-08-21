@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {k_hub_link} from "../Home";
 import {Container} from "react-bootstrap";
 import ISeatingChart from "../Interfaces/ISeatingChart";
 import CustomListTable from "./CustomListTable";
+import {k_hub_link} from "../CustomNavbar";
 
 interface HomeProps {
     screen: string;

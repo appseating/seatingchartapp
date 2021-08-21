@@ -4,9 +4,8 @@ import CustomNavbar, {
     k_about_link,
     k_contact_link,
     k_create_seating_chart_link,
-    k_home_link
+    k_home_link, k_hub_link
 } from "./components/CustomNavbar";
-import {k_hub_link} from "./components/Home";
 import Home from "./components/Home";
 import About from "./components/About/About";
 import Contact from "./components/Contact";

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
-import {k_home_link} from "../CustomNavbar";
+import {k_home_link, k_hub_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
 
 interface HomeProps {
@@ -33,7 +33,5 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
         </div>
     );
 }
-
-export const k_hub_link = "/hub";
 
 export default Home;
