@@ -1,9 +1,9 @@
 
 export class Student {
-    id: number | null = null
-    name: string | null = null
-    grade: number | null = null
-    gender: number | null = null
+    id?: number
+    name?: string
+    grade?: number
+    gender?: number
     prefFriends: string[] = []
     groupPref: number[] = []
 }

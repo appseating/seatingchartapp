@@ -38,5 +38,6 @@ export const k_home_link = "/home";
 export const k_create_seating_chart_link = "/create_seating_chart";
 export const k_about_link = "/about";
 export const k_contact_link = "/contact";
+export const k_create_roster_link = "/create_roster"
 
 export default CustomNavbar;
