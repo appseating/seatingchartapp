@@ -4,13 +4,15 @@ import CustomNavbar, {
     k_about_link,
     k_contact_link,
     k_create_seating_chart_link,
-    k_home_link, k_hub_link
+    k_home_link, k_hub_link,
+    k_create_roster_link
 } from "./components/CustomNavbar";
 import Home from "./components/Home";
 import About from "./components/About/About";
 import Contact from "./components/Contact";
 import CreateSeatingChart from "./components/CreateSeatingChart";
 import Hub from "./components/Hub";
+import CreateRoster from './components/CreateRoster/CreateRoster';
 import {k_rosters, readFromStorage} from "./utils/Storage";
 
 const App: React.FC = () => {
@@ -46,6 +48,9 @@ const App: React.FC = () => {
                 </Route>
 				<Route path={k_hub_link}>
                     <Hub screen={screen} setScreen={setScreen} user={user}/>
+                </Route>
+                <Route path={k_create_roster_link}>
+                    <CreateRoster screen={screen} setScreen={setScreen} user={user}/>
                 </Route>
                 <Redirect to={k_home_link}/>
             </Switch>
