@@ -7,12 +7,18 @@ interface CustomCanvasProps {
     seatingChart?: ISeatingChart;
 }
 
+interface Vector2f {
+    x: number;
+    y: number;
+}
+
 interface IMouse {
     withinScreen: boolean,
     x: number;
     y: number;
     dragStart?: {x: number, y: number};
     dragEnd?: {x: number, y: number};
+    dragOffset: Vector2f
 }
 
 interface IP5Camera {
@@ -27,10 +33,13 @@ const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => 
     const width: number = 500;
     const height: number = 500;
 
+    const selectedObj: any = undefined;
+
     let mouse: IMouse = {
         withinScreen: false,
         x: 0,
-        y: 0
+        y: 0,
+        dragOffset: {x: 0, y: 0}
     };
 
     let camera: IP5Camera = {
@@ -60,12 +69,6 @@ const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => 
         updateMouse(p5);
     }
 
-    const mouseDragged: any = (dragDelta: any): void => {
-        if(dragDelta.x !== undefined && dragDelta.y !== undefined) {
-            console.log('mouse dragged', dragDelta);
-        }
-    }
-
     const updateMouse: any = (p5: p5Types) => {
         // update mouse position
         mouse.x = p5.mouseX;
@@ -79,10 +82,6 @@ const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => 
         updateMouse(p5);
     }
 
-    const mouseWheel: any = (p5: p5Types): void => {
-        updateMouse(p5);
-    }
-
     const mousePressed: any = (p5: p5Types): void => {
         updateMouse(p5);
 
@@ -91,33 +90,43 @@ const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => 
                 x: p5.mouseX,
                 y: p5.mouseY
             };
+
+            console.log(mouse);
         }
     }
 
     const mouseReleased: any = (p5: p5Types): void => {
         updateMouse(p5);
 
-        if(mouse.withinScreen) {
+        mouse.dragStart = undefined;
+        mouse.dragEnd = undefined;
+        mouse.dragOffset = {x: camera.x, y: camera.y};
+    }
+
+    const mouseDragging: any = (p5: p5Types) => {
+        if(mouse.dragStart !== undefined && mouse.withinScreen) {
             mouse.dragEnd = {
                 x: p5.mouseX,
                 y: p5.mouseY
             };
 
-            if(mouse.dragStart !== undefined) {
-                const deltaDrag: any = {
-                    x: mouse.dragEnd.x - mouse.dragStart.x,
-                    y: mouse.dragEnd.y - mouse.dragStart.y
-                };
+            const deltaDrag: Vector2f = {
+                x: mouse.dragEnd.x - mouse.dragStart.x,
+                y: mouse.dragEnd.y - mouse.dragStart.y
+            };
 
-                mouseDragged(deltaDrag);
-
-                mouse.dragStart = undefined;
-                mouse.dragEnd = undefined;
-            }
+            camera.x = mouse.dragOffset.x + deltaDrag.x;
+            camera.y = mouse.dragOffset.y + deltaDrag.y;
         }
     }
 
-    return <Sketch setup={setup} draw={draw} mouseMoved={mouseMoved} mouseWheel={mouseWheel} mousePressed={mousePressed} mouseReleased={mouseReleased}/>;
+    const mouseWheel: any = (p5: p5Types): void => {
+        console.log(p5);
+
+        updateMouse(p5);
+    }
+
+    return <Sketch setup={setup} draw={draw} mouseDragged={mouseDragging} mouseMoved={mouseMoved} mouseWheel={mouseWheel} mousePressed={mousePressed} mouseReleased={mouseReleased}/>;
 }
 
 export default CustomCanvas;
