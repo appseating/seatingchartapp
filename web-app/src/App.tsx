@@ -12,19 +12,19 @@ import About from "./components/About/About";
 import Contact from "./components/Contact";
 import CreateSeatingChart from "./components/CreateSeatingChart";
 import Hub from "./components/Hub";
-import {k_roster, readFromStorage} from "./utils/Storage";
+import {k_rosters, readFromStorage} from "./utils/Storage";
 
 const App: React.FC = () => {
     const [screen, setScreen] = useState<string>("App");
     const [user, setUser] = useState<any>(undefined);
 
-    const [roster, setRoster] = useState<Array<any>>([]);
+    const [rosters, setRosters] = useState<Array<any>>([]);
 
     useEffect(() => {
-        let savedRoster = readFromStorage(k_roster) || [];
+        let savedRosters = readFromStorage(k_rosters) || [];
 
-        if(savedRoster instanceof Array) {
-            setRoster(savedRoster);
+        if(savedRosters instanceof Array) {
+            setRosters(savedRosters);
         }
     }, []);
 

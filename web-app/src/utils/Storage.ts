@@ -18,4 +18,4 @@ export const readFromStorage = (key: string) => {
     }
 }
 
-export const k_roster = 'roster';
+export const k_rosters = 'rosters';
