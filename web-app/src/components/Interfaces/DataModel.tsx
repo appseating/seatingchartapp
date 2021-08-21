@@ -9,22 +9,22 @@ export class Student {
 }
 
 export class Layout{
-    id: number | null = null
-    name: string | null = null
+    id?: number
+    name?: string
     // TODO: graphical representation
 }
 
 // note: does not contain students, but rather id references to students
 export class Group {
-    name: string | null = null
+    name?: string
     studentIDs: number[] = []
 }
 
 // note: does not contain layouts, but rather id references to layouts
 export class Seating {
-    name: string | null = null
+    name?: string
     groups: Group[] = []
-    layoutID: number | null = null
+    layoutID?: number
 }
 
 export class Roster {
