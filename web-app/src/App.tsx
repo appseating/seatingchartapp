@@ -13,7 +13,7 @@ import Contact from "./components/Contact";
 import CreateSeatingChart from "./components/CreateSeatingChart";
 import Hub from "./components/Hub";
 import CreateRoster from './components/CreateRoster/CreateRoster';
-import {k_rosters, readFromStorage} from "./utils/Storage";
+import {k_rosters, readFromStorage, saveToStorage} from "./utils/Storage";
 
 const App: React.FC = () => {
     const [screen, setScreen] = useState<string>("App");
@@ -28,6 +28,10 @@ const App: React.FC = () => {
             setRosters(savedRosters);
         }
     }, []);
+
+    useEffect(() => {
+       saveToStorage(k_rosters, rosters);
+    }, [rosters]);
 
     return (
         <Router>
