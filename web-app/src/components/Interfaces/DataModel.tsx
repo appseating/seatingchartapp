@@ -1,45 +1,61 @@
 
 export class Student {
-    id?: number
-    name?: string
-    grade?: number
-    gender?: number
-    prefFriends: string[] = []
-    groupPref: number[] = []
+    constructor(
+        public id: number | null = null,
+        public name: string | null = null,
+        public grade: number | null = null,
+        public gender: number | null = null,
+        public prefFriends: string[] = [],
+        public groupPref: number[] = []
+    ) {}
 }
 
 export class Layout{
-    id?: number
-    name?: string
-    // TODO: graphical representation
+    constructor(
+        public id: number | null = null,
+        public name: string | null = null,
+        // TODO: graphical representation
+    ) {}
 }
 
 // note: does not contain students, but rather id references to students
 export class Group {
-    name?: string
-    studentIDs: number[] = []
+    constructor(
+        public name: string | null = null,
+        public studentIDs: number[] = []
+    ) {}
 }
 
 // note: does not contain layouts, but rather id references to layouts
 export class Seating {
-    name?: string
-    groups: Group[] = []
-    layoutID?: number
+    constructor(
+        public id: number | null = null,
+        public name: string | null = null,
+        public groups: Group[] = [],
+        public layoutID: number | null = null
+    ) {}
 }
 
 export class Roster {
-    students: Map<number, Student> = new Map()
-    nextStudentID: number = 0
-    seatings: Seating[] = []
+    constructor(
+        public id: number | null = null,
+        public name: string | null = null,
+        public students: Map<number, Student> = new Map(),
+        public nextStudentID: number = 0,
+        public seatings: Seating[] = []
+    ) {}
 
-    addStudent(s:Student){
+    addStudent(s: Student){
         s.id  = this.nextStudentID
         this.students.set(this.nextStudentID++, s)
     }
 }
 
 export class ApplicationState {
-    rosters: Roster[] = []
-    layouts: Map<Layout, Student> = new Map()
-    nextLayoutID: number = 0
+    constructor(
+        public rosters: Roster[] = [],
+        public layouts: Map<Layout, Student> = new Map(),
+        public nextRosterID: number = 0,
+        public nextLayoutID: number = 0
+    ) {}
 }
