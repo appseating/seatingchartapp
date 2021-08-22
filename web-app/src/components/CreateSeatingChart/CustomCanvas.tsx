@@ -1,10 +1,10 @@
 import React from "react";
 import p5Types from "p5";
 import Sketch from "react-p5";
-import ISeatingChart from "../Interfaces/ISeatingChart";
+import {Layout, Seating} from "../Interfaces/DataModel";
 
 interface CustomCanvasProps {
-    seatingChart?: ISeatingChart;
+    seatingChart?: Layout | Seating;
 }
 
 interface Vector2f {
