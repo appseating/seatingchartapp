@@ -1,0 +1,60 @@
+.customTable {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+
+.customTable tr:hover {background-color: #ddd;}
+.customTable td, .customTable th {
+    padding: 8px;
+}
+
+tr.no-top td { border-top: none; }
+tr.top td { border-top: thin solid darkgray; }
+tr.no-bottom td { border-bottom: none; }
+tr.bottom td { border-bottom: thin solid darkgray; }
+
+
+.tableTitle {
+    text-align: center;
+    font-family: arial, sans-serif;
+}
+th.name {
+    width: 70%;
+    text-align: left;
+}
+th.date {
+    width: 30%;
+    text-align: left;
+}
+
+
+#rows th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.rows_seating {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+
+.rows_seating td, .rows_seating th {
+    padding: 8px;
+}
+
+.rows_seating tr:hover {background-color: transparent;}
+
+.rows_seating th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: white;
+}

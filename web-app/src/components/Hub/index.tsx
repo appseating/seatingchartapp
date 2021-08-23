@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Container} from "react-bootstrap";
 import {k_hub_link} from "../CustomNavbar";
 import { Student, Group, Layout, Seating, Roster } from "../Interfaces/DataModel";
-import Table from "./Table";
+import ExpandableTable from "./ExpandableTable";
 
 interface HomeProps {
     screen: string;
@@ -41,7 +41,6 @@ const Hub = (props: HomeProps) => {
     const Roster3 = new Roster(12, "Roster3", undefined, undefined, Seatings3);
     const Rosters : Roster[] = [Roster1, Roster2, Roster3];
 
-
     return (
         <div className={"page-container"}>
             <Container>
@@ -50,14 +49,18 @@ const Hub = (props: HomeProps) => {
 				We will fill this page with lists of in-progress and completed class layouts and rosters. It will also link to other "Create" pages.
 				</div>
                 <br/>
-                <Table
-                    title="Seating Layouts"
+                <h2>Seating Layouts</h2>
+                <ExpandableTable
                     data={Layouts}
+                    //tableSetting={"table-hover"}
+                    tableSetting={"customTable"}
                 />
                 <br/>
-                <Table
-                    title="Class Rosters"
+                <h2>Class Rosters</h2>
+                <ExpandableTable
                     data={Rosters}
+                    //tableSetting={"table-hover"}
+                    tableSetting={"customTable"}
                 />
             </Container>
         </div>

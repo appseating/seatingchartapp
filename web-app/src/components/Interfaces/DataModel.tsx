@@ -14,6 +14,8 @@ export class Layout{
     constructor(
         public id: number | null = null,
         public name: string | null = null,
+        public date: Date = new Date(),              // current date by default
+        public image: string | null = "[Show image here]"
         // TODO: graphical representation
     ) {}
 }
@@ -32,7 +34,8 @@ export class Seating {
         public id: number | null = null,
         public name: string | null = null,
         public groups: Group[] = [],
-        public layoutID: number | null = null
+        public layoutID: number | null = null,
+        public date: Date = new Date()              // current date by default
     ) {}
 }
 
@@ -42,7 +45,8 @@ export class Roster {
         public name: string | null = null,
         public students: Map<number, Student> = new Map(),
         public nextStudentID: number = 0,
-        public seatings: Seating[] = []
+        public seatings: Seating[] = [],
+        public date: Date = new Date()              // current date by default
     ) {}
 
     addStudent(s: Student){
