@@ -2,10 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {k_create_seating_chart_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
 import CustomCanvas from "./CustomCanvas";
-import {Student, Group, Layout, Seating, Roster} from "../Interfaces/DataModel"
-/*import ISeatingChart from "../Interfaces/ISeatingChart";
-import ITableGroup from "../Interfaces/ITableGroup";
-import IStudent from "../Interfaces/IStudent";*/
+import {Student, Group, Layout, Seating, Roster} from "../Interfaces/DataModel";
 
 interface CreateSeatingChartProps {
     screen: string;
