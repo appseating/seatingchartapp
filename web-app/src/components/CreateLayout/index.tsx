@@ -4,6 +4,11 @@ import {Container} from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import {Student, Group, Layout, Seating, Roster} from "../Interfaces/DataModel";
 
+interface PassedState {
+    fromHub: boolean;
+    layout: Layout;
+}
+
 interface CreateLayoutProps {
     screen: string;
     setScreen: Function;
@@ -11,9 +16,11 @@ interface CreateLayoutProps {
 }
 
 const CreateLayout = (props: CreateLayoutProps) => {
-    /*const location = useLocation();
-    const layout = location.state || {fromHub: false, layout: null};   // Layout prop passed by Hub page.
-    console.log(layout);*/
+    // Layout prop passed by Hub page.
+    const location = useLocation();
+    const { fromHub, layout } = location.state as PassedState || {fromHub: false, layout: null};
+    console.log(fromHub);
+    console.log(layout);
 
     useEffect(() => {
         props.setScreen(k_create_layout_link);

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {HashRouter as Router, Redirect, Route, Switch,} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch,} from "react-router-dom";
 import CustomNavbar, {
     k_about_link,
     k_contact_link,

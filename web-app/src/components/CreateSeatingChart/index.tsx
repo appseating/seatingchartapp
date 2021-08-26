@@ -3,6 +3,13 @@ import {k_create_seating_chart_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
 import CustomCanvas from "./CustomCanvas";
 import {Student, Group, Layout, Seating, Roster} from "../Interfaces/DataModel";
+import {useLocation} from "react-router-dom";
+
+interface PassedState {
+    fromHub: boolean;
+    roster: Roster;
+    seating: Seating;
+}
 
 interface CreateSeatingChartProps {
     screen: string;
@@ -11,7 +18,14 @@ interface CreateSeatingChartProps {
 }
 
 const CreateSeatingChart: React.FC<CreateSeatingChartProps> = (props: CreateSeatingChartProps) => {
-    //const [seatingChart, setSeatingChart] = useState<ISeatingChart | undefined>();
+    // Seating props passed by Hub page.
+    const location = useLocation();
+    const { fromHub, roster, seating } = location.state as PassedState || {fromHub: false, roster: null, seating: null};
+    console.log(fromHub);
+    console.log(roster);
+    console.log(seating);
+
+    // TODO: refactor code that uses below variables
     const [seatingChart, setSeatingChart] = useState<Layout | Seating | undefined>();
 
     useEffect(() => {

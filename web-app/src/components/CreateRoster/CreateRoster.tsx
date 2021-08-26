@@ -5,9 +5,10 @@ import ReactDOM from 'react-dom';
 import Table from 'react-bootstrap/Table'
 import EditableTable from './EditableTable'
 import { parse } from 'dotenv/types';
-import { ApplicationState, Roster, Student } from '../Interfaces/DataModel'
+import {ApplicationState, Layout, Roster, Student} from '../Interfaces/DataModel'
 import Papa from 'papaparse';
 import { Button, Container } from 'react-bootstrap';
+import {useLocation} from "react-router-dom";
 
 
 async function handleFile(e: ChangeEvent<HTMLInputElement>, output: (res: string[][]) => void) {
@@ -77,6 +78,11 @@ function saveTable(table: string[][]) {
     console.log(r)
 }
 
+interface PassedState {
+    fromHub: boolean;
+    roster: Roster;
+}
+
 interface CreateRosterProps {
     screen: string;
     setScreen: Function;
@@ -84,6 +90,12 @@ interface CreateRosterProps {
 }
 
 export default function CreateRoster(props: CreateRosterProps) {
+    // Roster prop passed by Hub page.
+    const location = useLocation();
+    const { fromHub, roster } = location.state as PassedState || {fromHub: false, roster: null};
+    console.log(fromHub);
+    console.log(roster);
+
     useEffect(() => {
         props.setScreen('/create_roster');
     }, [props]);
