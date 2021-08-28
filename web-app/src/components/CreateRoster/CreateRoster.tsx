@@ -87,6 +87,7 @@ interface CreateRosterProps {
     screen: string;
     setScreen: Function;
     user: any;
+    rosters: Roster[];
 }
 
 export default function CreateRoster(props: CreateRosterProps) {

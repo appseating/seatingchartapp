@@ -14,6 +14,7 @@ interface CreateLayoutProps {
     screen: string;
     setScreen: Function;
     user: any;
+    layouts: Layout[];
 }
 
 const CreateLayout = (props: CreateLayoutProps) => {

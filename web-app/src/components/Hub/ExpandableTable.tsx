@@ -53,12 +53,11 @@ class ExpandableTable extends React.Component<TableProps> {
                 let row = [] as JSX.Element[];
                 switch (true) {
                     case (this.props.data[i] instanceof Layout): {
-                        const {name, id, date, image} = this.props.data[i];
-                        row.push(<td align="left">{name}</td>);
-                        row.push(<td align="left">{date.toLocaleDateString()}</td>);
+                        row.push(<td align="left">{this.props.data[i].name}</td>);
+                        row.push(<td align="left">{this.props.data[i].date.toLocaleDateString()}</td>);
                         table.push(
                             <tr
-                                key={counter++}
+                                key={this.props.data[i].id}
                                 className={"no-bottom"}
                                 onClick={() => this.handleOnClickLayout(this.props.data[i])}
                             >
@@ -68,7 +67,7 @@ class ExpandableTable extends React.Component<TableProps> {
 
                         // TODO: show image for Layout
                         row = [] as JSX.Element[];
-                        row.push(<td align="center">{image}</td>);
+                        row.push(<td align="center">{this.props.data[i].image}</td>);
                         row.push(<td></td>);
                         table.push(
                             <tr key={counter++} className={"bottom"}>
@@ -79,12 +78,11 @@ class ExpandableTable extends React.Component<TableProps> {
                     }
 
                     case this.props.data[i] instanceof Roster: {
-                        const {name, id, students, nextStudentID, seatings, date} = this.props.data[i];
-                        row.push(<td align="left">{name}</td>);
-                        row.push(<td align="left">{date.toLocaleDateString()}</td>);
+                        row.push(<td align="left">{this.props.data[i].name}</td>);
+                        row.push(<td align="left">{this.props.data[i].date.toLocaleDateString()}</td>);
                         table.push(
                             <tr
-                                key={counter++}
+                                key={this.props.data[i].id}
                                 className={"top no-bottom"}
                                 onClick={() => this.handleOnClickRoster(this.props.data[i])}
                             >
@@ -94,12 +92,11 @@ class ExpandableTable extends React.Component<TableProps> {
 
                         for (let j = 0; j < this.props.data[i].seatings.length; j++) {
                             row = [] as JSX.Element[];
-                            const {name, id, groups, layoutID, SeatingID, date} = this.props.data[i].seatings[j];
-                            row.push(<td align="left">{spacer}{name}</td>);
-                            row.push(<td align="left">{date.toLocaleDateString()}</td>);
+                            row.push(<td align="left">{spacer}{this.props.data[i].seatings[j].name}</td>);
+                            row.push(<td align="left">{this.props.data[i].seatings[j].date.toLocaleDateString()}</td>);
                             table.push(
                                 <tr
-                                    key={counter++}
+                                    key={this.props.data[i].seatings[j].id}
                                     className={"no-bottom"}
                                     onClick={() => this.handleOnClickSeating(
                                         this.props.data[i], this.props.data[i].seatings[j])}

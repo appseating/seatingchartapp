@@ -27,7 +27,7 @@ interface IP5Camera {
     zoom: number;
 }
 
-class Rectangle {
+class Table {
     private TABLE_COLOR = this.p5.color(244, 164, 96);
     private EMPTY_COLOR = this.p5.color(255,255,255);
     private TEXT_COLOR = this.p5.color(0,0,0);
@@ -71,7 +71,7 @@ class Rectangle {
     }
 }
 
-let grid: Rectangle[][];
+let grid: Table[][];
 
 const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
     const { layout } = props;
@@ -110,7 +110,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
         for(let i = 0; i < numCol; i++) {
             grid[i] = [];
             for(let j = 0; j < numRow; j++) {
-                grid[i][j] = new Rectangle(p5, i*gridWidth, j*gridHeight, gridWidth, gridHeight, 0, 0);
+                grid[i][j] = new Table(p5, i*gridWidth, j*gridHeight, gridWidth, gridHeight, 0, 0);
             }
         }
         p5.noLoop();

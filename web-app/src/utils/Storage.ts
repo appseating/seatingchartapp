@@ -18,4 +18,5 @@ export const readFromStorage = (key: string) => {
     }
 }
 
+export const k_layouts = 'layouts';
 export const k_rosters = 'rosters';
