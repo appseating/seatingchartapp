@@ -3,6 +3,7 @@ import {k_create_layout_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import {Student, Group, Layout, Seating, Roster} from "../Interfaces/DataModel";
+import GridCanvas from "./GridCanvas";
 
 interface PassedState {
     fromHub: boolean;
@@ -30,6 +31,12 @@ const CreateLayout = (props: CreateLayoutProps) => {
         <div className={"page-container"}>
             <Container>
                 <h1>Create Layout</h1>
+                <div>
+                    To select tables, hold a digit (1-9) and click on the squares. To unselect, click the squares
+                    without pressing any keys.
+                </div>
+                <br/>
+                <GridCanvas layout={layout}/>
             </Container>
         </div>
     );
