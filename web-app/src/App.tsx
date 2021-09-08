@@ -16,6 +16,8 @@ import Hub from "./components/Hub";
 import CreateRoster from './components/CreateRoster/CreateRoster';
 import CreateLayout from "./components/CreateLayout";
 import {k_layouts, k_rosters, readFromStorage, saveToStorage} from "./utils/Storage";
+import {Layout} from "./components/Interfaces/DataModel";
+import {Table} from "./components/CreateLayout/GridCanvas";
 
 const App: React.FC = () => {
     const [screen, setScreen] = useState<string>("App");
@@ -26,8 +28,8 @@ const App: React.FC = () => {
 
     useEffect(() => {
         // load in layouts and rosters from local storage when app starts
-        let savedLayouts = readFromStorage(k_layouts) || [];
-        let savedRosters = readFromStorage(k_rosters) || [];
+        let savedLayouts: Array<any> = readFromStorage(k_layouts) || [];
+        let savedRosters: Array<any> = readFromStorage(k_rosters) || [];
 
         if(savedLayouts instanceof Array) {
             setLayouts(savedLayouts);

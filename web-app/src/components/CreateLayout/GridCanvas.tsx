@@ -33,13 +33,8 @@ interface IP5Camera {
 }
 
 export class Table {
-    private TABLE_COLOR = this.p5.color(244, 164, 96);
-    private EMPTY_COLOR = this.p5.color(255,255,255);
-    private TEXT_COLOR = this.p5.color(0,0,0);
-    private TEXT_SIZE = 20;
-
     constructor(
-        public p5: p5Types,
+        // public p5: p5Types,
         public x: number,
         public y: number,
         public w: number = 30,
@@ -50,27 +45,19 @@ export class Table {
         public j: number            // TODO: see above ^^
     ) {}
 
-    // returns true if (x,y) is inside the rectangle
-    within(x: number, y: number) {
-        // TODO: make for theta != 0
-        return (x >= this.x && x < this.x + this.w &&
-            y >= this.y && y < this.y + this.h);
-    }
+    toString() {
+        const map: any = {
+            x: this.x,
+            y: this.y,
+            w: this.w,
+            h: this.h,
+            theta: this.theta,
+            group: this.group,
+            i: this.i,
+            j: this.j
+        };
 
-    // render the rectangle
-    display() {
-        if(this.group > 0) {
-            this.p5.fill(this.TABLE_COLOR);
-            this.p5.rect(this.x, this.y, this.w, this.h);
-
-            this.p5.fill(this.TEXT_COLOR);
-            this.p5.textSize(this.TEXT_SIZE);
-            this.p5.textAlign(this.p5.CENTER, this.p5.CENTER);
-            this.p5.text(this.group, this.x + this.w/2, this.y + this.h/2);
-        } else {
-            this.p5.fill(this.EMPTY_COLOR);
-            this.p5.rect(this.x, this.y, this.w, this.h);
-        }
+        return JSON.stringify(map);
     }
 }
 
@@ -105,6 +92,42 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
     // let cnv: p5Types.Element,
     let input: p5Types.Element, saveButton: p5Types.Element, saveExitButton: p5Types.Element;
 
+    // returns true if (x,y) is inside the rectangle
+    const within = (x: number, y: number, table: Table) => {
+        // TODO: make for theta != 0
+        return (x >= table.x && x < table.x + table.w &&
+            y >= table.y && y < table.y + table.h);
+    }
+
+    const getStyles = (p5: p5Types): any => {
+        const map = {
+            TABLE_COLOR : p5.color(244, 164, 96),
+            EMPTY_COLOR : p5.color(255,255,255),
+            TEXT_COLOR : p5.color(0,0,0),
+            TEXT_SIZE : 20
+        }
+
+        return map;
+    }
+
+    // render the rectangle
+    const display = (p5: p5Types, table: Table) => {
+        const styles: any = getStyles(p5);
+
+        if(table.group > 0) {
+            p5.fill(styles.TABLE_COLOR);
+            p5.rect(table.x, table.y, table.w, table.h);
+
+            p5.fill(styles.TEXT_COLOR);
+            p5.textSize(styles.TEXT_SIZE);
+            p5.textAlign(p5.CENTER, p5.CENTER);
+            p5.text(table.group, table.x + table.w/2, table.y + table.h/2);
+        } else {
+            p5.fill(styles.EMPTY_COLOR);
+            p5.rect(table.x, table.y, table.w, table.h);
+        }
+    }
+
     const save = (p5: p5Types) => {
         // first, check that we have initialized the grid
         if(!grid)
@@ -119,10 +142,10 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
 
         // store current canvas in layout.tables
         for(let i = 0; i < 10; i++)
-            layout.tables.set(i, []);
+            layout.tables[i] = [];
         for(let i = 0; i < numCol; i++)
             for(let j = 0; j < numRow; j++)
-                layout.tables.get(grid[i][j].group)?.push(grid[i][j]);
+                layout.tables[grid[i][j].group]?.push(grid[i][j]);
 
         // save layout
         let i: number = layouts.indexOf(layout);        // this checks by UUID of layout
@@ -156,21 +179,22 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
         for (let i = 0; i < numCol; i++) {
             grid[i] = [];
             for (let j = 0; j < numRow; j++) {
-                grid[i][j] = new Table(p5, i * tableWidth, j * tableHeight, tableWidth, tableHeight,
+                grid[i][j] = new Table(i * tableWidth, j * tableHeight, tableWidth, tableHeight,
                     0, 0, i, j);
             }
         }
 
         // if given valid layout, initialize groups
         if(layout) {
-            layout.tables.forEach(function(arr, groupNum) {
+            // layout.tables.forEach(function(arr: any, groupNum: any) {
+            for(const [tableNumber, tablesArr] of Object.entries(layout.tables)) {
+                const arr: any = tablesArr;
                 for(let k = 0; k < arr.length; k++) {
                     let table = arr[k];
-                    table.p5 = p5;
                     grid[table.i][table.j] = table;
                     console.log("Load table "+table.i+" "+table.j);
                 }
-            })
+            }
         }
 
         // input, buttons
@@ -194,7 +218,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
 
         for(let i = 0; i < numCol; i++) {
             for(let j = 0; j < numRow; j++) {
-                grid[i][j].display();
+                display(p5, grid[i][j]);
             }
         }
     }
@@ -215,7 +239,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
             // check if user clicked a rectangle
             for (let i = 0; i < numCol; i++) {
                 for (let j = 0; j < numRow; j++) {
-                    if (grid && grid[i][j].within(mouse.x, mouse.y)) {
+                    if (grid && within(mouse.x, mouse.y, grid[i][j])) {
                         grid[i][j].group = selectedGroup;
                         console.log("Set grid (" + i + ", " + j + ") to group " + selectedGroup);
                     }

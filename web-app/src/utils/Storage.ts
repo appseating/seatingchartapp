@@ -1,6 +1,8 @@
 export const saveToStorage = (key: string, value: any) => {
     console.log('saving to storage...');
 
+    console.log(value);
+
     try {
         localStorage.setItem(key, JSON.stringify(value));
     }

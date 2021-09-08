@@ -28,10 +28,21 @@ export class Student extends IdentifierObject {
 export class Layout extends IdentifierObject {
     constructor(
         public name: string = "New Layout",
-        public date: Date = new Date(),              // current date by default
+        public date: string = new Date().toLocaleDateString(),              // current date by default
         public image: string = "base64imagedata",
-        public tables: Map<number, Table[]> = new Map()
+        public tables: any = {}
     ) { super(); }
+
+    toString() {
+        const map = {
+            name: this.name,
+            date: this.date,
+            image: this.image,
+            tables: JSON.stringify(this.tables)
+        }
+
+        return JSON.stringify(map);
+    }
 }
 
 // note: does not contain students, but rather id references to students
