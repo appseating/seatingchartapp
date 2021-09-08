@@ -14,9 +14,9 @@ interface TableProps extends RouteComponentProps<any> {
 }
 
 class ExpandableTable extends React.Component<TableProps> {
-    constructor(props : TableProps) {
-        super(props);
-    }
+    // constructor(props : TableProps) {
+    //     super(props);
+    // }
 
     handleOnClickLayout = (layoutID : string) => {
         console.log("Push layout: ");

@@ -19,7 +19,7 @@ import {k_layouts, k_rosters, readFromStorage, saveToStorage} from "./utils/Stor
 
 const App: React.FC = () => {
     const [screen, setScreen] = useState<string>("App");
-    const [user, setUser] = useState<any>(undefined);
+    const [user] = useState<any>(undefined);
 
     const [layouts, setLayouts] = useState<Array<any>>([]);
     const [rosters, setRosters] = useState<Array<any>>([]);
@@ -37,44 +37,32 @@ const App: React.FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        // save latest layout changes to local storage
-        saveToStorage(k_layouts, layouts);
-        console.log("Updated layouts");
-    }, [layouts]);
-
-    useEffect(() => {
-        // save latest rosters changes to local storage
-        saveToStorage(k_rosters, rosters);
-        console.log("Updated rosters");
-    }, [rosters]);
-
     return (
         <Router>
             <CustomNavbar screen={screen} setScreen={setScreen} user={user}/>
 
             <Switch>
-                <Route path={k_home_link}>
+                <Route path={k_home_link} render={() => (
                     <Home screen={screen} setScreen={setScreen} user={user}/>
-                </Route>
-                <Route path={k_create_seating_chart_link}>
+                )} />
+                <Route path={k_create_seating_chart_link} render={() => (
                     <CreateSeatingChart screen={screen} setScreen={setScreen} user={user} layouts={layouts} rosters={rosters}/>
-                </Route>
-                <Route path={k_about_link}>
+                )} />
+                <Route path={k_about_link} render={() => (
                     <About screen={screen} setScreen={setScreen} user={user}/>
-                </Route>
-                <Route path={k_contact_link}>
+                )} />
+                <Route path={k_contact_link} render={() => (
                     <Contact screen={screen} setScreen={setScreen} user={user}/>
-                </Route>
-				<Route path={k_hub_link}>
+                )} />
+				<Route path={k_hub_link} render={() => (
                     <Hub screen={screen} setScreen={setScreen} user={user} layouts={layouts} rosters={rosters} setLayouts={setLayouts} setRosters={setRosters}/>
-                </Route>
-                <Route path={k_create_roster_link}>
+                )} />
+                <Route path={k_create_roster_link} render={() => (
                     <CreateRoster screen={screen} setScreen={setScreen} user={user} rosters={rosters}/>
-                </Route>
-                <Route path={k_create_layout_link}>
+                )} />
+                <Route path={k_create_layout_link} render={() => (
                     <CreateLayout screen={screen} setScreen={setScreen} user={user} layouts={layouts} setLayouts={setLayouts}/>
-                </Route>
+                )} />
                 <Redirect to={k_home_link}/>
             </Switch>
         </Router>

@@ -33,7 +33,7 @@ const CustomCanvas: React.FC<CustomCanvasProps> = (props: CustomCanvasProps) => 
     const width: number = 500;
     const height: number = 500;
 
-    const selectedObj: any = undefined;
+    // const selectedObj: any = undefined;
 
     let mouse: IMouse = {
         withinScreen: false,

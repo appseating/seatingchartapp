@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Container} from "react-bootstrap";
 import {k_hub_link} from "../CustomNavbar";
-import { Student, Group, Layout, Seating, Roster } from "../Interfaces/DataModel";
+import { Layout, Roster } from "../Interfaces/DataModel";
 import ExpandableTable from "./ExpandableTable";
 
 interface HomeProps {

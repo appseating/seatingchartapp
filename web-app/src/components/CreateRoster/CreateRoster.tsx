@@ -1,11 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-// import '../index.css';
-import Table from 'react-bootstrap/Table'
+// import Table from 'react-bootstrap/Table'
 import EditableTable from './EditableTable'
-import { parse } from 'dotenv/types';
-import {ApplicationState, Layout, Roster, Student} from '../Interfaces/DataModel'
+import {Roster, Student} from '../Interfaces/DataModel'
 import Papa from 'papaparse';
 import { Button, Container } from 'react-bootstrap';
 import {useLocation} from "react-router-dom";
@@ -41,10 +38,10 @@ function parseAttribute(student: Student, attrName: string, value: string) {
             student.grade = parseFloat(value)
             break
         case 'gender':
-            if (value.toLowerCase().trim() == 'male') {
+            if (value.toLowerCase().trim() === 'male') {
                 student.gender = -1
             }
-            else if (value.toLowerCase().trim() == 'female') {
+            else if (value.toLowerCase().trim() === 'female') {
                 student.gender = 1
             }
             else {

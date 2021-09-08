@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-// import '../index.css';
 import Table from 'react-bootstrap/Table'
 
 interface ControlledInputProps {
@@ -47,7 +45,7 @@ export default function EditableTable(props: EditableTableProps) {
         let row = [] as JSX.Element[]
         for (let j = 0; j < props.data[i].length; j++) {
             row.push(<td> <ControlledInput key={j}
-                validation={props.validations != undefined ? props.validations[j] : undefined}
+                validation={props.validations !== undefined ? props.validations[j] : undefined}
                 value={props.data[i][j]}
                 setData={(s: string) => { props.setData(i, j, s) }} /> </td>)
         }

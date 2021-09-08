@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {k_create_layout_link} from "../CustomNavbar";
 import {Container} from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import {Student, Group, Layout, Seating, Roster} from "../Interfaces/DataModel";
+import {Layout} from "../Interfaces/DataModel";
 import GridCanvas from "./GridCanvas";
 
 interface PassedState {
@@ -25,11 +25,13 @@ const CreateLayout = (props: CreateLayoutProps) => {
     console.log(fromHub);
     console.log(layoutID);
     let layout = new Layout();
-    for(let i = 0; i < props.layouts.length; i++)
-        if(props.layouts[i].id === layoutID) {
-            layout = props.layouts[i];
-            break;
-        }
+    if(props.layouts !== undefined) {
+        for(let i = 0; i < props.layouts.length; i++)
+            if(props.layouts[i].id === layoutID) {
+                layout = props.layouts[i];
+                break;
+            }
+    }
     console.log(layout);
     console.log(props.layouts);
 

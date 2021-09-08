@@ -1,8 +1,17 @@
 export const saveToStorage = (key: string, value: any) => {
-    localStorage.setItem(key, JSON.stringify(value));
+    console.log('saving to storage...');
+
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+    catch (err: any) {
+        localStorage.setItem(key, value);
+    }
 }
 
 export const readFromStorage = (key: string) => {
+    console.log('reading from storage...');
+
     let item: string | null = localStorage.getItem(key);
 
     if(item == null) {

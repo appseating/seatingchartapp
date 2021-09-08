@@ -4,6 +4,7 @@ import Sketch from "react-p5";
 import {Layout} from "../Interfaces/DataModel";
 import {k_hub_link} from "../CustomNavbar";
 import { useHistory } from "react-router";
+import {k_layouts, saveToStorage} from "../../utils/Storage";
 
 interface GridCanvasProps {
     layout: Layout;
@@ -101,11 +102,51 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
     };
 
     const history = useHistory();
-    let cnv: p5Types.Element, input: p5Types.Element, saveButton: p5Types.Element, saveExitButton: p5Types.Element;
+    // let cnv: p5Types.Element,
+    let input: p5Types.Element, saveButton: p5Types.Element, saveExitButton: p5Types.Element;
+
+    const save = (p5: p5Types) => {
+        // first, check that we have initialized the grid
+        if(!grid)
+            return;
+
+        // store name
+        layout.name = input.value().toString() === "" ? "New Layout "+layouts.length : input.value().toString();
+
+        // store current canvas in layout.image
+        layout.image = p5.get();
+        //p5.save(layout.image);                                          // DEBUG
+
+        // store current canvas in layout.tables
+        for(let i = 0; i < 10; i++)
+            layout.tables.set(i, []);
+        for(let i = 0; i < numCol; i++)
+            for(let j = 0; j < numRow; j++)
+                layout.tables.get(grid[i][j].group)?.push(grid[i][j]);
+
+        // save layout
+        let i: number = layouts.indexOf(layout);        // this checks by UUID of layout
+        if(i === -1) {
+            layouts.push(layout);
+            console.log("Saved new layout");
+        } else {
+            layouts[i] = layout;
+            console.log(layout);
+            console.log("Updated layout " + i);
+        }
+        console.log('layouts: ', layouts);
+        props.setLayouts(layouts);
+        saveToStorage(k_layouts, layouts);
+    }
+
+    const saveExit = (p5: p5Types) => {
+        save(p5);
+        history.push(k_hub_link);
+    }
 
     const setup: any = (p5: p5Types, canvasParentRef: Element): void => {
         console.log("Render GridCanvas");
-        cnv = p5.createCanvas(width, height).parent(canvasParentRef);
+        // cnv = p5.createCanvas(width, height).parent(canvasParentRef);
 
         // default Table grid
         let tableWidth = gridWidth / numCol;
@@ -135,47 +176,11 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
         // input, buttons
         input = p5.createInput(layout.name).parent(canvasParentRef);
         saveButton = p5.createButton("Save").parent(canvasParentRef);
-        saveButton.mouseClicked(save);
+        saveButton.mouseClicked(() => { save(p5) } );
         saveExitButton = p5.createButton("Save and Exit").parent(canvasParentRef);
-        saveExitButton.mouseClicked(saveExit);
+        saveExitButton.mouseClicked( () => { saveExit(p5) } );
 
         p5.noLoop();
-
-        function save() {
-            // first, check that we have initialized the grid
-            if(!grid)
-                return;
-
-            // store name
-            layout.name = input.value().toString() === "" ? "New Layout "+layouts.length : input.value().toString();
-
-            // store current canvas in layout.image
-            layout.image = p5.get();
-            //p5.save(layout.image);                                          // DEBUG
-
-            // store current canvas in layout.tables
-            for(let i = 0; i < 10; i++)
-                layout.tables.set(i, []);
-            for(let i = 0; i < numCol; i++)
-                for(let j = 0; j < numRow; j++)
-                    layout.tables.get(grid[i][j].group)?.push(grid[i][j]);
-
-            // save layout
-            let i: number = layouts.indexOf(layout);        // this checks by UUID of layout
-            if(i === -1) {
-                layouts.push(layout);
-                console.log("Saved new layout");
-            } else {
-                layouts[i] = layout;
-                console.log(layout);
-                console.log("Updated layout " + i);
-            }
-            props.setLayouts(layouts);
-        }
-        function saveExit() {
-            save();
-            history.push(k_hub_link);
-        }
     }
 
     const draw: any = (p5: p5Types): void => {
