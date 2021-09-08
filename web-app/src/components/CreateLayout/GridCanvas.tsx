@@ -114,7 +114,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
         layout.name = input.value().toString() === "" ? "New Layout "+layouts.length : input.value().toString();
 
         // store current canvas in layout.image
-        layout.image = p5.get();
+        layout.image = p5.get().toString();
         //p5.save(layout.image);                                          // DEBUG
 
         // store current canvas in layout.tables

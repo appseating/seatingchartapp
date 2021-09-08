@@ -5,7 +5,7 @@ export const saveToStorage = (key: string, value: any) => {
         localStorage.setItem(key, JSON.stringify(value));
     }
     catch (err: any) {
-        localStorage.setItem(key, value);
+        localStorage.setItem(key, value.toString());
     }
 }
 

@@ -29,7 +29,7 @@ export class Layout extends IdentifierObject {
     constructor(
         public name: string = "New Layout",
         public date: Date = new Date(),              // current date by default
-        public image: Image | string = "[Show image here]",
+        public image: string = "base64imagedata",
         public tables: Map<number, Table[]> = new Map()
     ) { super(); }
 }
