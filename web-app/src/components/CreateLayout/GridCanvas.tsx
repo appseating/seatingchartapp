@@ -45,20 +45,20 @@ export class Table {
         public j: number            // TODO: see above ^^
     ) {}
 
-    toString() {
-        const map: any = {
-            x: this.x,
-            y: this.y,
-            w: this.w,
-            h: this.h,
-            theta: this.theta,
-            group: this.group,
-            i: this.i,
-            j: this.j
-        };
-
-        return JSON.stringify(map);
-    }
+    // toString() {
+    //     const map: any = {
+    //         x: this.x,
+    //         y: this.y,
+    //         w: this.w,
+    //         h: this.h,
+    //         theta: this.theta,
+    //         group: this.group,
+    //         i: this.i,
+    //         j: this.j
+    //     };
+    //
+    //     return JSON.stringify(map);
+    // }
 }
 
 let grid: Table[][];

@@ -33,16 +33,16 @@ export class Layout extends IdentifierObject {
         public tables: any = {}
     ) { super(); }
 
-    toString() {
-        const map = {
-            name: this.name,
-            date: this.date,
-            image: this.image,
-            tables: JSON.stringify(this.tables)
-        }
-
-        return JSON.stringify(map);
-    }
+    // toString() {
+    //     const map = {
+    //         name: this.name,
+    //         date: this.date,
+    //         image: this.image,
+    //         tables: JSON.stringify(this.tables)
+    //     }
+    //
+    //     return JSON.stringify(map);
+    // }
 }
 
 // note: does not contain students, but rather id references to students
