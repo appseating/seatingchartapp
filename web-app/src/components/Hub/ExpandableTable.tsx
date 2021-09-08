@@ -60,7 +60,7 @@ class ExpandableTable extends React.Component<TableProps> {
                     for (let i = 0; i < this.props.data.length; i++) {
                         row = [] as JSX.Element[];
                         row.push(<td align="left">{this.props.data[i].name}</td>);
-                        row.push(<td align="left">{this.props.data[i].date.toLocaleDateString()}</td>);
+                        row.push(<td align="left">{new Date(this.props.data[i].date).toLocaleDateString()}</td>);
                         table.push(
                             <tr
                                 key={this.props.data[i].id}

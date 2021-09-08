@@ -30,8 +30,9 @@ const App: React.FC = () => {
         let savedRosters = readFromStorage(k_rosters) || [];
 
         if(savedLayouts instanceof Array) {
-            setRosters(savedLayouts);
+            setLayouts(savedLayouts);
         }
+
         if(savedRosters instanceof Array) {
             setRosters(savedRosters);
         }

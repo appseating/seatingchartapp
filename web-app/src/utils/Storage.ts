@@ -10,17 +10,16 @@ export const saveToStorage = (key: string, value: any) => {
 }
 
 export const readFromStorage = (key: string) => {
-    console.log('reading from storage...');
+    let item = localStorage.getItem(key);
 
-    let item: string | null = localStorage.getItem(key);
+    console.log(`${key} in storage: `, item);
 
     if(item == null) {
         return undefined;
     }
 
     try {
-        item = JSON.parse(item);
-        return item;
+        return JSON.parse(item);
     }
     catch (err: any) {
         return item;
