@@ -5,10 +5,12 @@ import {Layout, Roster, Seating} from "../Interfaces/DataModel";
 import Table from 'react-bootstrap/Table'
 import { withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
+import { Image } from 'p5';
 
 interface TableProps extends RouteComponentProps<any> {
     data: Array<any>;
-    tableSetting: string;
+    elementType: string;
+    tableSetting: string;           // for CSS formatting of react table
 }
 
 class ExpandableTable extends React.Component<TableProps> {
@@ -16,10 +18,12 @@ class ExpandableTable extends React.Component<TableProps> {
         super(props);
     }
 
-    handleOnClickLayout = (layoutData : Layout) => {
+    handleOnClickLayout = (layoutID : string) => {
+        console.log("Push layout: ");
+        console.log(layoutID);
         this.props.history.push(k_create_layout_link, {
             fromHub: true,
-            layout: layoutData
+            layoutID: layoutID
         });
     }
     handleOnClickRoster = (rosterData : Roster) => {
@@ -39,6 +43,8 @@ class ExpandableTable extends React.Component<TableProps> {
     render() {
         console.log('Rerender expandable table')
         let table = [] as JSX.Element[];
+        let row = [] as JSX.Element[];
+        let tempID : number = 0;
 
         // for spacing on sub-lists
         let spacer : string = "";
@@ -48,18 +54,18 @@ class ExpandableTable extends React.Component<TableProps> {
         }
 
         if(Array.isArray(this.props.data)) {
-            let counter : number = 0;
-            for (let i = 0; i < this.props.data.length; i++) {
-                let row = [] as JSX.Element[];
-                switch (true) {
-                    case (this.props.data[i] instanceof Layout): {
+            switch(this.props.elementType) {
+                // render Layout[] data
+                case ("Layout"):
+                    for (let i = 0; i < this.props.data.length; i++) {
+                        row = [] as JSX.Element[];
                         row.push(<td align="left">{this.props.data[i].name}</td>);
                         row.push(<td align="left">{this.props.data[i].date.toLocaleDateString()}</td>);
                         table.push(
                             <tr
                                 key={this.props.data[i].id}
                                 className={"no-bottom"}
-                                onClick={() => this.handleOnClickLayout(this.props.data[i])}
+                                onClick={() => this.handleOnClickLayout(this.props.data[i].id)}
                             >
                                 {row}
                             </tr>
@@ -67,17 +73,39 @@ class ExpandableTable extends React.Component<TableProps> {
 
                         // TODO: show image for Layout
                         row = [] as JSX.Element[];
-                        row.push(<td align="center">{this.props.data[i].image}</td>);
+                        if(this.props.data[i].image instanceof Image) {
+                            row.push(<td align="center">Show image here.</td>);
+                        } else {    // DEBUG: show default string instead of image
+                            row.push(<td align="center">Show string here.</td>);
+                        }
                         row.push(<td></td>);
                         table.push(
-                            <tr key={counter++} className={"bottom"}>
+                            <tr key={tempID++} className={"bottom"}>
                                 {row}
                             </tr>
                         );
-                        break;
                     }
 
-                    case this.props.data[i] instanceof Roster: {
+                    // last row for making a new Layout
+                    let newLayout = new Layout("NewLayout");
+                    row = [] as JSX.Element[];
+                    row.push(<td align="left" colSpan={2}>{"Click here to create a new layout!"}</td>);
+                    table.push(
+                        <tr
+                            key={newLayout.id}
+                            className={"bottom"}
+                            onClick={() => this.handleOnClickLayout(newLayout.id)}
+                        >
+                            {row}
+                        </tr>
+                    );
+
+                    break;
+
+                    // render Roster[] data
+                case("Roster"):
+                    for (let i = 0; i < this.props.data.length; i++) {
+                        row = [] as JSX.Element[];
                         row.push(<td align="left">{this.props.data[i].name}</td>);
                         row.push(<td align="left">{this.props.data[i].date.toLocaleDateString()}</td>);
                         table.push(
@@ -105,18 +133,17 @@ class ExpandableTable extends React.Component<TableProps> {
                                 </tr>
                             );
                         }
-                        break;
                     }
+                    break;
 
-                    default: {
-                        row.push(<td align="left">Unsupported data type was inputted.</td>);
-                        table.push(<tr key={i}>{row}</tr>);
-                    }
-                }
+                default:
+                    row = [] as JSX.Element[];
+                    row.push(<td align="left">Unsupported data type was inputted.</td>);
+                    table.push(<tr key={tempID++}>{row}</tr>);
             }
-        } else {
+
+        } else
             return (<tr><td>Unsupported data type was inputted.</td></tr>);
-        }
 
         return (
             <Table className={ this.props.tableSetting }>

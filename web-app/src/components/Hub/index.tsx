@@ -10,6 +10,8 @@ interface HomeProps {
     user: any;
     layouts: Layout[];
     rosters: Roster[];
+    setLayouts: Function;
+    setRosters: Function;
 }
 
 const Hub = (props: HomeProps) => {
@@ -17,6 +19,7 @@ const Hub = (props: HomeProps) => {
         props.setScreen(k_hub_link);
     }, [props]);
 
+    /*
     // hard coded data for testing purposes
     const Student1 = new Student("Alice", 11, 1);
     const Student2 = new Student("Bob", 11, -1);
@@ -41,7 +44,7 @@ const Hub = (props: HomeProps) => {
     const Roster1 = new Roster("Roster1", undefined, Seatings1);
     const Roster2 = new Roster("Roster2", undefined, Seatings2);
     const Roster3 = new Roster("Roster3", undefined, Seatings3);
-    const Rosters : Roster[] = [Roster1, Roster2, Roster3];
+    const Rosters : Roster[] = [Roster1, Roster2, Roster3]; */
 
     return (
         <div className={"page-container"}>
@@ -53,14 +56,16 @@ const Hub = (props: HomeProps) => {
                 <br/>
                 <h2>Seating Layouts</h2>
                 <ExpandableTable
-                    data={Layouts}
+                    data={props.layouts}
+                    elementType={"Layout"}
                     //tableSetting={"table-hover"}
                     tableSetting={"customTable"}
                 />
                 <br/>
                 <h2>Class Rosters</h2>
                 <ExpandableTable
-                    data={Rosters}
+                    data={props.rosters}
+                    elementType={"Roster"}
                     //tableSetting={"table-hover"}
                     tableSetting={"customTable"}
                 />

@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Image } from 'p5';
+import { Table } from "../CreateLayout/GridCanvas";
 
 class IdentifierObject {
     public id: string;
@@ -9,7 +11,7 @@ class IdentifierObject {
 
     // equal iff their ids are equal
     public equals(obj: IdentifierObject) : boolean {
-        return (this.id === obj.id);
+        return (obj && this.id === obj.id);
     }
 }
 
@@ -25,10 +27,10 @@ export class Student extends IdentifierObject {
 
 export class Layout extends IdentifierObject {
     constructor(
-        public name: string | null = null,
+        public name: string = "New Layout",
         public date: Date = new Date(),              // current date by default
-        public image: string | null = "[Show image here]"
-        // TODO: graphical representation
+        public image: Image | string = "[Show image here]",
+        public tables: Map<number, Table[]> = new Map()
     ) { super(); }
 }
 
@@ -53,7 +55,7 @@ export class Seating extends IdentifierObject {
 export class Roster extends IdentifierObject {
     constructor(
         public name: string | null = null,
-        public students: Map<string, Student> = new Map(),  // TODO: why not use an array? - Tae Kyu
+        public students: Map<string, Student> = new Map(),
         public seatings: Seating[] = [],
         public date: Date = new Date()              // current date by default
     ) { super(); }
@@ -65,7 +67,6 @@ export class Roster extends IdentifierObject {
 
 export class ApplicationState {
     constructor(
-        //public layouts: Map<Layout, Student> = new Map(),
         public layouts: Layout[] = [],
         public rosters: Roster[] = []
     ) {}

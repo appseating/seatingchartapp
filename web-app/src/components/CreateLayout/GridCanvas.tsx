@@ -2,9 +2,13 @@ import React from "react";
 import p5Types from "p5";
 import Sketch from "react-p5";
 import {Layout} from "../Interfaces/DataModel";
+import {k_hub_link} from "../CustomNavbar";
+import { useHistory } from "react-router";
 
 interface GridCanvasProps {
-    layout?: Layout;
+    layout: Layout;
+    layouts: Layout[];
+    setLayouts: Function;
 }
 
 interface Vector2f {
@@ -27,25 +31,23 @@ interface IP5Camera {
     zoom: number;
 }
 
-class Table {
+export class Table {
     private TABLE_COLOR = this.p5.color(244, 164, 96);
     private EMPTY_COLOR = this.p5.color(255,255,255);
     private TEXT_COLOR = this.p5.color(0,0,0);
     private TEXT_SIZE = 20;
 
     constructor(
-        private p5: p5Types,
+        public p5: p5Types,
         public x: number,
         public y: number,
         public w: number = 30,
         public h: number = 20,
         public theta: number = 0,
-        public group: number
+        public group: number,
+        public i: number,           // TODO: remove after changing grid of Tables to more robust UI
+        public j: number            // TODO: see above ^^
     ) {}
-
-    setGroup(group: number) {
-        this.group = group;
-    }
 
     // returns true if (x,y) is inside the rectangle
     within(x: number, y: number) {
@@ -74,14 +76,14 @@ class Table {
 let grid: Table[][];
 
 const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
-    const { layout } = props;
+    let { layout, layouts } = props;
 
     const width: number = 500;
     const height: number = 500;
     const numCol: number = 10;
     const numRow: number = 10;
-    let gridWidth: number;
-    let gridHeight: number;
+    const gridWidth: number = 500;
+    const gridHeight: number = 500;
 
     let selectedGroup: number = 0;
 
@@ -98,22 +100,82 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
         zoom: 1.0
     };
 
+    const history = useHistory();
+    let cnv: p5Types.Element, input: p5Types.Element, saveButton: p5Types.Element, saveExitButton: p5Types.Element;
+
     const setup: any = (p5: p5Types, canvasParentRef: Element): void => {
         console.log("Render GridCanvas");
-        p5.createCanvas(width, height).parent(canvasParentRef);
+        cnv = p5.createCanvas(width, height).parent(canvasParentRef);
 
-        // create grid of Rectangles TODO: initialize if given layout input
-        gridWidth = width / numCol;
-        gridHeight = height / numRow;
+        // default Table grid
+        let tableWidth = gridWidth / numCol;
+        let tableHeight = gridHeight / numRow;
 
         grid = [];
-        for(let i = 0; i < numCol; i++) {
+        for (let i = 0; i < numCol; i++) {
             grid[i] = [];
-            for(let j = 0; j < numRow; j++) {
-                grid[i][j] = new Table(p5, i*gridWidth, j*gridHeight, gridWidth, gridHeight, 0, 0);
+            for (let j = 0; j < numRow; j++) {
+                grid[i][j] = new Table(p5, i * tableWidth, j * tableHeight, tableWidth, tableHeight,
+                    0, 0, i, j);
             }
         }
+
+        // if given valid layout, initialize groups
+        if(layout) {
+            layout.tables.forEach(function(arr, groupNum) {
+                for(let k = 0; k < arr.length; k++) {
+                    let table = arr[k];
+                    table.p5 = p5;
+                    grid[table.i][table.j] = table;
+                    console.log("Load table "+table.i+" "+table.j);
+                }
+            })
+        }
+
+        // input, buttons
+        input = p5.createInput(layout.name).parent(canvasParentRef);
+        saveButton = p5.createButton("Save").parent(canvasParentRef);
+        saveButton.mouseClicked(save);
+        saveExitButton = p5.createButton("Save and Exit").parent(canvasParentRef);
+        saveExitButton.mouseClicked(saveExit);
+
         p5.noLoop();
+
+        function save() {
+            // first, check that we have initialized the grid
+            if(!grid)
+                return;
+
+            // store name
+            layout.name = input.value().toString() === "" ? "New Layout "+layouts.length : input.value().toString();
+
+            // store current canvas in layout.image
+            layout.image = p5.get();
+            //p5.save(layout.image);                                          // DEBUG
+
+            // store current canvas in layout.tables
+            for(let i = 0; i < 10; i++)
+                layout.tables.set(i, []);
+            for(let i = 0; i < numCol; i++)
+                for(let j = 0; j < numRow; j++)
+                    layout.tables.get(grid[i][j].group)?.push(grid[i][j]);
+
+            // save layout
+            let i: number = layouts.indexOf(layout);        // this checks by UUID of layout
+            if(i === -1) {
+                layouts.push(layout);
+                console.log("Saved new layout");
+            } else {
+                layouts[i] = layout;
+                console.log(layout);
+                console.log("Updated layout " + i);
+            }
+            props.setLayouts(layouts);
+        }
+        function saveExit() {
+            save();
+            history.push(k_hub_link);
+        }
     }
 
     const draw: any = (p5: p5Types): void => {
@@ -149,7 +211,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
             for (let i = 0; i < numCol; i++) {
                 for (let j = 0; j < numRow; j++) {
                     if (grid && grid[i][j].within(mouse.x, mouse.y)) {
-                        grid[i][j].setGroup(selectedGroup);
+                        grid[i][j].group = selectedGroup;
                         console.log("Set grid (" + i + ", " + j + ") to group " + selectedGroup);
                     }
                 }

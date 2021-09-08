@@ -38,10 +38,16 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        // save latest rosters changes to local storage
+        // save latest layout changes to local storage
         saveToStorage(k_layouts, layouts);
+        console.log("Updated layouts");
+    }, [layouts]);
+
+    useEffect(() => {
+        // save latest rosters changes to local storage
         saveToStorage(k_rosters, rosters);
-    }, [layouts, rosters]);
+        console.log("Updated rosters");
+    }, [rosters]);
 
     return (
         <Router>
@@ -61,13 +67,13 @@ const App: React.FC = () => {
                     <Contact screen={screen} setScreen={setScreen} user={user}/>
                 </Route>
 				<Route path={k_hub_link}>
-                    <Hub screen={screen} setScreen={setScreen} user={user} layouts={layouts} rosters={rosters}/>
+                    <Hub screen={screen} setScreen={setScreen} user={user} layouts={layouts} rosters={rosters} setLayouts={setLayouts} setRosters={setRosters}/>
                 </Route>
                 <Route path={k_create_roster_link}>
                     <CreateRoster screen={screen} setScreen={setScreen} user={user} rosters={rosters}/>
                 </Route>
                 <Route path={k_create_layout_link}>
-                    <CreateLayout screen={screen} setScreen={setScreen} user={user} layouts={layouts}/>
+                    <CreateLayout screen={screen} setScreen={setScreen} user={user} layouts={layouts} setLayouts={setLayouts}/>
                 </Route>
                 <Redirect to={k_home_link}/>
             </Switch>

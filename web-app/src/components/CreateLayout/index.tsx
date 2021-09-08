@@ -7,7 +7,7 @@ import GridCanvas from "./GridCanvas";
 
 interface PassedState {
     fromHub: boolean;
-    layout: Layout;
+    layoutID: string;
 }
 
 interface CreateLayoutProps {
@@ -15,14 +15,23 @@ interface CreateLayoutProps {
     setScreen: Function;
     user: any;
     layouts: Layout[];
+    setLayouts: Function;
 }
 
 const CreateLayout = (props: CreateLayoutProps) => {
     // Layout prop passed by Hub page.
     const location = useLocation();
-    const { fromHub, layout } = location.state as PassedState || {fromHub: false, layout: null};
+    const { fromHub, layoutID } = location.state as PassedState || {fromHub: false, layoutID: ""};
     console.log(fromHub);
+    console.log(layoutID);
+    let layout = new Layout();
+    for(let i = 0; i < props.layouts.length; i++)
+        if(props.layouts[i].id === layoutID) {
+            layout = props.layouts[i];
+            break;
+        }
     console.log(layout);
+    console.log(props.layouts);
 
     useEffect(() => {
         props.setScreen(k_create_layout_link);
@@ -37,7 +46,7 @@ const CreateLayout = (props: CreateLayoutProps) => {
                     without pressing any keys.
                 </div>
                 <br/>
-                <GridCanvas layout={layout}/>
+                <GridCanvas layout={layout} layouts={props.layouts} setLayouts={props.setLayouts}/>
             </Container>
         </div>
     );
