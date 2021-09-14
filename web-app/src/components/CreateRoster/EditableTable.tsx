@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Table from 'react-bootstrap/Table'
+import Table from 'react-bootstrap/Table';
+import "./TableStyle.css";
 
 interface ControlledInputProps {
     value: string
@@ -54,6 +55,6 @@ export default function EditableTable(props: EditableTableProps) {
     }
 
     return (
-        <Table><tbody>{table}</tbody></Table>
+        <Table className={"editableTable"}><tbody>{table}</tbody></Table>
     )
 }

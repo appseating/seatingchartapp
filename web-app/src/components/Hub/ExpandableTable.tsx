@@ -5,7 +5,6 @@ import {Layout, Roster, Seating} from "../Interfaces/DataModel";
 import Table from 'react-bootstrap/Table'
 import { withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
-import { Image } from 'p5';
 
 interface TableProps extends RouteComponentProps<any> {
     data: Array<any>;
@@ -26,17 +25,17 @@ class ExpandableTable extends React.Component<TableProps> {
             layoutID: layoutID
         });
     }
-    handleOnClickRoster = (rosterData : Roster) => {
+    handleOnClickRoster = (rosterID : string) => {
         this.props.history.push(k_create_roster_link, {
             fromHub: true,
-            roster: rosterData
+            rosterID: rosterID
         });
     }
-    handleOnClickSeating = (rosterData : Roster, seatingData : Seating) => {
+    handleOnClickSeating = (rosterID : string, seatingID : string) => {
         this.props.history.push(k_create_seating_chart_link, {
             fromHub: true,
-            roster: rosterData,
-            seating: seatingData
+            rosterID: rosterID,
+            seatingID: seatingID
         });
     }
 
@@ -73,11 +72,7 @@ class ExpandableTable extends React.Component<TableProps> {
 
                         // TODO: show image for Layout
                         row = [] as JSX.Element[];
-                        if(this.props.data[i].image instanceof Image) {
-                            row.push(<td align="center">Show image here.</td>);
-                        } else {    // DEBUG: show default string instead of image
-                            row.push(<td align="center">Show string here.</td>);
-                        }
+                        row.push(<td align="center"><img src={this.props.data[i].image}/></td>);
                         row.push(<td></td>);
                         table.push(
                             <tr key={tempID++} className={"bottom"}>
@@ -87,7 +82,7 @@ class ExpandableTable extends React.Component<TableProps> {
                     }
 
                     // last row for making a new Layout
-                    let newLayout = new Layout("NewLayout");
+                    let newLayout = new Layout("New Layout");
                     row = [] as JSX.Element[];
                     row.push(<td align="left" colSpan={2}>{"Click here to create a new layout!"}</td>);
                     table.push(
@@ -107,12 +102,12 @@ class ExpandableTable extends React.Component<TableProps> {
                     for (let i = 0; i < this.props.data.length; i++) {
                         row = [] as JSX.Element[];
                         row.push(<td align="left">{this.props.data[i].name}</td>);
-                        row.push(<td align="left">{this.props.data[i].date.toLocaleDateString()}</td>);
+                        row.push(<td align="left">{new Date(this.props.data[i].date).toLocaleDateString()}</td>);
                         table.push(
                             <tr
                                 key={this.props.data[i].id}
                                 className={"top no-bottom"}
-                                onClick={() => this.handleOnClickRoster(this.props.data[i])}
+                                onClick={() => this.handleOnClickRoster(this.props.data[i].id)}
                             >
                                 {row}
                             </tr>
@@ -121,19 +116,48 @@ class ExpandableTable extends React.Component<TableProps> {
                         for (let j = 0; j < this.props.data[i].seatings.length; j++) {
                             row = [] as JSX.Element[];
                             row.push(<td align="left">{spacer}{this.props.data[i].seatings[j].name}</td>);
-                            row.push(<td align="left">{this.props.data[i].seatings[j].date.toLocaleDateString()}</td>);
+                            row.push(<td align="left">{new Date(this.props.data[i].seatings[j].date).toLocaleDateString()}</td>);
                             table.push(
                                 <tr
                                     key={this.props.data[i].seatings[j].id}
                                     className={"no-bottom"}
                                     onClick={() => this.handleOnClickSeating(
-                                        this.props.data[i], this.props.data[i].seatings[j])}
+                                        this.props.data[i].id, this.props.data[i].seatings[j].id)}
+                                >
+                                    {row}
+                                </tr>
+                            );
+
+                            // last row for making a new Seating
+                            let newSeating = new Seating("New Seating");
+                            row = [] as JSX.Element[];
+                            row.push(<td align="left" colSpan={2}>{"Click here to create a new seating!"}</td>);
+                            table.push(
+                                <tr
+                                    key={newSeating.id}
+                                    className={"bottom"}
+                                    onClick={() => this.handleOnClickRoster(newSeating.id)}
                                 >
                                     {row}
                                 </tr>
                             );
                         }
                     }
+
+                    // last row for making a new Roster
+                    let newRoster = new Roster("New Roster");
+                    row = [] as JSX.Element[];
+                    row.push(<td align="left" colSpan={2}>{"Click here to create a new roster!"}</td>);
+                    table.push(
+                        <tr
+                            key={newRoster.id}
+                            className={"bottom"}
+                            onClick={() => this.handleOnClickRoster(newRoster.id)}
+                        >
+                            {row}
+                        </tr>
+                    );
+
                     break;
 
                 default:

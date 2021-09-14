@@ -1,0 +1,14 @@
+.editableTable {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.editableTable td, .editableTable th {
+    padding: 0;
+    margin: 0;
+    border-top: none;
+    border-bottom: none;
+}

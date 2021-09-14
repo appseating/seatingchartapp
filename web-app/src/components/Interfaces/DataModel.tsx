@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Image } from 'p5';
 import { Table } from "../CreateLayout/GridCanvas";
 
 class IdentifierObject {
@@ -57,22 +56,23 @@ export class Group {
 export class Seating extends IdentifierObject {
     constructor(
         public name: string | null = null,
-        public groups: Group[] = [],
+        public groups: any[] = [],
         public layoutID: number | null = null,
-        public date: Date = new Date()              // current date by default
+        public date: string = new Date().toLocaleDateString()              // current date by default
     ) { super(); }
 }
 
 export class Roster extends IdentifierObject {
     constructor(
         public name: string | null = null,
-        public students: Map<string, Student> = new Map(),
-        public seatings: Seating[] = [],
-        public date: Date = new Date()              // current date by default
+        public students: any = {},
+        public seatings: any[] = [],
+        public date: string = new Date().toLocaleDateString(),             // current date by default
+        public table: string[][] = []
     ) { super(); }
 
     addStudent(s: Student){
-        this.students.set(s.id, s);
+        this.students[s.id] = s;
     }
 }
 

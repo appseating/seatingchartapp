@@ -2,10 +2,12 @@ import React, { ChangeEvent } from 'react';
 import { useState, useEffect } from 'react';
 // import Table from 'react-bootstrap/Table'
 import EditableTable from './EditableTable'
-import {Roster, Student} from '../Interfaces/DataModel'
+import {Layout, Roster, Student} from '../Interfaces/DataModel'
 import Papa from 'papaparse';
 import { Button, Container } from 'react-bootstrap';
 import {useLocation} from "react-router-dom";
+import {k_create_roster_link} from "../CustomNavbar";
+import {k_layouts, k_rosters, saveToStorage} from "../../utils/Storage";
 
 
 async function handleFile(e: ChangeEvent<HTMLInputElement>, output: (res: string[][]) => void) {
@@ -58,8 +60,8 @@ function parseAttribute(student: Student, attrName: string, value: string) {
 
 }
 
-function saveTable(table: string[][]) {
-    let r = new Roster()
+function saveTable(table: string[][], props: CreateRosterProps, rosterID: string) {
+    let r = new Roster()     // TODO: make rosters editable, not just create new roster
 
     for (let i = 1; i < table.length; i++) {
         let s = new Student()
@@ -68,6 +70,20 @@ function saveTable(table: string[][]) {
         }
         r.addStudent(s)
     }
+    r.table = table
+    r.id = rosterID
+
+    let i: number = props.rosters.indexOf(r);        // this checks by UUID of roster
+    if(i === -1) {
+        props.rosters.push(r);
+        console.log("Saved new roster");
+    } else {
+        props.rosters[i] = r;
+        console.log(r);
+        console.log("Updated roster " + i);
+    }
+    props.setRosters(r);
+    saveToStorage(k_rosters, props.rosters);
 
     console.log('Table')
     console.log(table)
@@ -77,7 +93,7 @@ function saveTable(table: string[][]) {
 
 interface PassedState {
     fromHub: boolean;
-    roster: Roster;
+    rosterID: string;
 }
 
 interface CreateRosterProps {
@@ -85,21 +101,31 @@ interface CreateRosterProps {
     setScreen: Function;
     user: any;
     rosters: Roster[];
+    setRosters: Function;
 }
 
 export default function CreateRoster(props: CreateRosterProps) {
     // Roster prop passed by Hub page.
     const location = useLocation();
-    const { fromHub, roster } = location.state as PassedState || {fromHub: false, roster: null};
+    const { fromHub, rosterID } = location.state as PassedState || {fromHub: false, rosterID: ""};
     console.log(fromHub);
+    console.log(rosterID);
+    let roster = new Roster();
+    if(props.rosters !== undefined) {
+        for(let i = 0; i < props.rosters.length; i++)
+            if(props.rosters[i].id === rosterID) {
+                roster = props.rosters[i];
+                break;
+            }
+    }
     console.log(roster);
+    console.log(props.rosters);
 
     useEffect(() => {
-        props.setScreen('/create_roster');
+        props.setScreen(k_create_roster_link);
     }, [props]);
 
-    const [table, setTable] = useState([] as string[][])
-
+    const [table, setTable] = useState(roster.table as string[][])
     console.log(table.length)
 
     return (
@@ -125,7 +151,7 @@ export default function CreateRoster(props: CreateRosterProps) {
                                 )}
                             />
 
-                            <Button variant="primary" onClick={() => saveTable(table)}>Save</Button>{' '}
+                            <Button variant="primary" onClick={() => saveTable(table, props, "")}>Save</Button>{' '}
                         </div>
                     )
                 }

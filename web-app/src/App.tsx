@@ -61,7 +61,7 @@ const App: React.FC = () => {
                     <Hub screen={screen} setScreen={setScreen} user={user} layouts={layouts} rosters={rosters} setLayouts={setLayouts} setRosters={setRosters}/>
                 )} />
                 <Route path={k_create_roster_link} render={() => (
-                    <CreateRoster screen={screen} setScreen={setScreen} user={user} rosters={rosters}/>
+                    <CreateRoster screen={screen} setScreen={setScreen} user={user} rosters={rosters} setRosters={setRosters}/>
                 )} />
                 <Route path={k_create_layout_link} render={() => (
                     <CreateLayout screen={screen} setScreen={setScreen} user={user} layouts={layouts} setLayouts={setLayouts}/>

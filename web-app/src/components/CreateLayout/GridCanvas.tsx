@@ -89,7 +89,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
     };
 
     const history = useHistory();
-    // let cnv: p5Types.Element,
+    let canvas: p5Types.Element;
     let input: p5Types.Element, saveButton: p5Types.Element, saveExitButton: p5Types.Element;
 
     // returns true if (x,y) is inside the rectangle
@@ -137,8 +137,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
         layout.name = input.value().toString() === "" ? "New Layout "+layouts.length : input.value().toString();
 
         // store current canvas in layout.image
-        layout.image = 'get base 64 string here https://www.codegrepper.com/code-examples/javascript/frameworks/react/canvas+to+base64+string';
-        //p5.save(layout.image);                                          // DEBUG
+        layout.image = canvas.elt.toDataURL();
 
         // store current canvas in layout.tables
         for(let i = 0; i < 10; i++)
@@ -169,7 +168,7 @@ const GridCanvas: React.FC<GridCanvasProps> = (props: GridCanvasProps) => {
 
     const setup: any = (p5: p5Types, canvasParentRef: Element): void => {
         console.log("Render GridCanvas");
-        // cnv = p5.createCanvas(width, height).parent(canvasParentRef);
+        canvas = p5.createCanvas(width, height).parent(canvasParentRef);
 
         // default Table grid
         let tableWidth = gridWidth / numCol;
