@@ -1,5 +1,4 @@
 import React from "react";
-import "./TableStyle.css";
 import {k_create_layout_link, k_create_roster_link, k_create_seating_chart_link} from "../CustomNavbar";
 import {Layout, Roster, Seating} from "../Interfaces/DataModel";
 import Table from 'react-bootstrap/Table'

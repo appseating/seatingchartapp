@@ -64,7 +64,7 @@ export class Seating extends IdentifierObject {
 
 export class Roster extends IdentifierObject {
     constructor(
-        public name: string | null = null,
+        public name: string = "New Roster",
         public students: any = {},
         public seatings: any[] = [],
         public date: string = new Date().toLocaleDateString(),             // current date by default

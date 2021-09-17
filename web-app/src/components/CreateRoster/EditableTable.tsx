@@ -9,7 +9,7 @@ interface ControlledInputProps {
     validation?: (s: string) => string
 }
 
-function ControlledInput(props: ControlledInputProps) {
+export function ControlledInput(props: ControlledInputProps) {
     console.log('rerender input')
     const [value, setValue] = useState(props.value)
 
@@ -54,7 +54,7 @@ export default function EditableTable(props: EditableTableProps) {
         table.push(<tr key={i}>{row}</tr>)
     }
 
-    return (
+    return (<>
         <Table className={"editableTable"}><tbody>{table}</tbody></Table>
-    )
+    </>)
 }

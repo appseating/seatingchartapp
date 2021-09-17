@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { useState, useEffect } from 'react';
 // import Table from 'react-bootstrap/Table'
-import EditableTable from './EditableTable'
+import EditableTable, { ControlledInput } from './EditableTable'
 import {Layout, Roster, Student} from '../Interfaces/DataModel'
 import Papa from 'papaparse';
 import { Button, Container } from 'react-bootstrap';
@@ -60,35 +60,38 @@ function parseAttribute(student: Student, attrName: string, value: string) {
 
 }
 
-function saveTable(table: string[][], props: CreateRosterProps, rosterID: string) {
-    let r = new Roster()     // TODO: make rosters editable, not just create new roster
-
+function saveTable(roster: Roster, table: string[][], props: CreateRosterProps, name: string) {
+    // update roster with user input
+    console.log(roster)
+    roster.students = {}
     for (let i = 1; i < table.length; i++) {
         let s = new Student()
         for (let j = 0; j < table[i].length; j++) {
             parseAttribute(s, table[0][j], table[i][j])
         }
-        r.addStudent(s)
+        roster.addStudent(s)
     }
-    r.table = table
-    r.id = rosterID
+    roster.table = table
+    roster.name = name
 
-    let i: number = props.rosters.indexOf(r);        // this checks by UUID of roster
+    let i: number = props.rosters.indexOf(roster);        // this checks by UUID of roster
     if(i === -1) {
-        props.rosters.push(r);
+        props.rosters.push(roster);
         console.log("Saved new roster");
     } else {
-        props.rosters[i] = r;
-        console.log(r);
+        props.rosters[i] = roster;
+        console.log(roster);
         console.log("Updated roster " + i);
     }
-    props.setRosters(r);
+    props.setRosters(props.rosters);
     saveToStorage(k_rosters, props.rosters);
 
-    console.log('Table')
+    console.log('Table:')
     console.log(table)
-    console.log('Roster')
-    console.log(r)
+    console.log('Roster:')
+    console.log(roster)
+    console.log('Rosters:')
+    console.log(props.rosters);
 }
 
 interface PassedState {
@@ -126,12 +129,14 @@ export default function CreateRoster(props: CreateRosterProps) {
     }, [props]);
 
     const [table, setTable] = useState(roster.table as string[][])
+    const [name, setName] = useState(roster.name as string)
     console.log(table.length)
 
     return (
         <div className={"page-container"}>
             <Container>
                 <h1>Create Roster</h1>
+                <ControlledInput value={name} setData={setName}/>
                 <ImportCSV callBack={
                     (res: string[][]) => { setTable(res) }
                 } />
@@ -151,7 +156,7 @@ export default function CreateRoster(props: CreateRosterProps) {
                                 )}
                             />
 
-                            <Button variant="primary" onClick={() => saveTable(table, props, "")}>Save</Button>{' '}
+                            <Button variant="primary" onClick={() => saveTable(roster, table, props, name)}>Save</Button>{' '}
                         </div>
                     )
                 }
